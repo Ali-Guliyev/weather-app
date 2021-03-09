@@ -1,6 +1,11 @@
 <template>
-  {{ weather.name }}
-  {{ weather.temp }}°C
+  <div v-if="weather.name">
+    {{ weather.name }}
+    {{ weather.temp }}°C
+  </div>
+  <div v-else>
+    User deneied location
+  </div>
 </template>
 
 <script>
@@ -22,7 +27,6 @@ export default {
           .then((res) => {
             weather.value = res.data;
             weather.value.temp = Math.round(weather.value.main.temp - 273.15);
-            console.log(weather.value);
           });
       });
     }
