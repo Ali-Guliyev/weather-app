@@ -20,13 +20,18 @@ export default {
       // GETTING TIME BY TIMEZONES AND COUNTRIES
       const ct = require("countries-and-timezones");
       const country = ct.getCountry(res.sys.country);
-
       const date = new Date();
       const utcTime = date.getTime() + date.getTimezoneOffset() * 60000;
-      const timeOffset = ct.getTimezone(country.timezones[0]).utcOffset / 60;
+      let timeOffset;
+      for (let i = 0; i < country.timezones.length; i++) {
+        let currentPlace = query.value.replace(" ", "_");
+        if (country.timezones[i].includes(currentPlace)) {
+          console.log(country.timezones[i]);
+          timeOffset = ct.getTimezone(country.timezones[i]).utcOffset / 60;
+        }
+      }
       const currentTime = new Date(utcTime + 3600000 * timeOffset);
       const time = `${currentTime.getHours()}:${currentTime.getMinutes()}`;
-      console.log(time);
 
       // ADDING THE DATA TO THE WEATHER REF
       weather.value = {
