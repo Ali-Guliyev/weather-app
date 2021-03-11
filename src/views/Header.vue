@@ -15,7 +15,19 @@
         class="header__searchInput"
         spellcheck="false"
         placeholder="Search..."
+        :value="query"
+        @keydown="
+          (e) => {
+            this.$emit('input', e);
+          }
+        "
       />
     </div>
   </header>
 </template>
+
+<script>
+export default {
+  props: ["query"],
+};
+</script>
