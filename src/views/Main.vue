@@ -13,7 +13,7 @@
       loading="lazy"
       allowfullscreen
       :src="
-        `https://www.google.com/maps/embed/v1/view?center=${location.lat},${location.lon}&zoom=12&key=AIzaSyCXeckAkyZNnAPDyJjl_9bSLYvCwV3nprs`
+        `https://www.google.com/maps/embed/v1/view?center=${location.lat},${location.lon}&zoom=10&key=AIzaSyCXeckAkyZNnAPDyJjl_9bSLYvCwV3nprs`
       "
     >
     </iframe>
