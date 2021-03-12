@@ -14,24 +14,45 @@ export default {
   setup() {
     const query = ref("");
     const weather = ref({});
-    const time = ref({});
 
     const getWeatherDetails = (res) => {
       // GETTING TIME BY TIMEZONES AND COUNTRIES
+      const week = [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+      ];
       const ct = require("countries-and-timezones");
       const country = ct.getCountry(res.sys.country);
       const date = new Date();
       const utcTime = date.getTime() + date.getTimezoneOffset() * 60000;
-      let timeOffset;
+      let timeOffset, currentTime, time, day;
       for (let i = 0; i < country.timezones.length; i++) {
         let currentPlace = query.value.replace(" ", "_");
         if (country.timezones[i].includes(currentPlace)) {
-          console.log(country.timezones[i]);
           timeOffset = ct.getTimezone(country.timezones[i]).utcOffset / 60;
+          break;
+        } else {
+          timeOffset = ct.getTimezone(country.timezones[0]).utcOffset / 60;
         }
       }
-      const currentTime = new Date(utcTime + 3600000 * timeOffset);
-      const time = `${currentTime.getHours()}:${currentTime.getMinutes()}`;
+      currentTime = new Date(utcTime + 3600000 * timeOffset);
+      day = week[currentTime.getDay() - 1];
+      time = `${currentTime.getHours()}:${currentTime.getMinutes()}`.split(":");
+      console.log(time);
+      // Adding "0" to the time is it's needed
+      for (let i = 0; i < time.length; i++) {
+        if (time[i].length == 1) {
+          let num = time[i].split("");
+          num.unshift("0");
+          time[i] = `${num[0]}${num[1]}`;
+        }
+      }
+      time = `${day}, ${time[0]}:${time[1]}`;
 
       // ADDING THE DATA TO THE WEATHER REF
       weather.value = {
