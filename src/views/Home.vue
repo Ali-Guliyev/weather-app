@@ -1,6 +1,6 @@
 <template>
   <Header @input="changeQuery" :query="query" />
-  <Main :weather="weather" :query="query" />
+  <Main :location="location" :time="time" :weather="weather" :query="query" />
 </template>
 
 <script>
@@ -14,9 +14,15 @@ export default {
   setup() {
     const query = ref("");
     const weather = ref({});
+    const time = ref("");
+    const location = ref({});
 
-    const getWeatherDetails = (res) => {
-      // GETTING TIME BY TIMEZONES AND COUNTRIES
+    const getLocation = (res) => {
+      const { lat, lon } = res.coord;
+      location.value = { lat, lon };
+    };
+
+    const getTime = (res) => {
       const week = [
         "Monday",
         "Tuesday",
@@ -43,7 +49,6 @@ export default {
       currentTime = new Date(utcTime + 3600000 * timeOffset);
       day = week[currentTime.getDay() - 1];
       time = `${currentTime.getHours()}:${currentTime.getMinutes()}`.split(":");
-      console.log(time);
       // Adding "0" to the time is it's needed
       for (let i = 0; i < time.length; i++) {
         if (time[i].length == 1) {
@@ -53,6 +58,12 @@ export default {
         }
       }
       time = `${day}, ${time[0]}:${time[1]}`;
+      return time;
+    };
+
+    const getWeatherDetails = (res) => {
+      // GETTING TIME BY TIMEZONES AND COUNTRIES
+      time.value = getTime(res);
 
       // ADDING THE DATA TO THE WEATHER REF
       weather.value = {
@@ -63,7 +74,6 @@ export default {
         icon: `https://openweathermap.org/img/wn/${res.weather[0].icon}.png`,
         humidity: res.main.humidity,
         windspeed: res.wind.speed,
-        time: time,
       };
     };
 
@@ -74,6 +84,8 @@ export default {
           position.coords.longitude,
           position.coords.latitude
         ).then((res) => {
+          getLocation(res.data);
+          console.log(location.value);
           getWeatherDetails(res.data);
         });
       });
@@ -83,6 +95,7 @@ export default {
     const handleSearch = () => {
       WeatherService.getWeatherByQuery(query.value).then((res) => {
         console.log(res.data);
+        getLocation(res.data);
         getWeatherDetails(res.data);
       });
     };
@@ -96,7 +109,7 @@ export default {
       }
     };
 
-    return { query, changeQuery, weather, handleSearch };
+    return { query, changeQuery, weather, handleSearch, time, location };
   },
 };
 </script>
