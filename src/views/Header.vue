@@ -16,9 +16,9 @@
         spellcheck="false"
         placeholder="Search..."
         :value="query"
-        @keydown="
+        @keypress="
           (e) => {
-            this.$emit('input', e);
+            this.$emit('input1', e);
           }
         "
       />

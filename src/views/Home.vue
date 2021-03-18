@@ -1,6 +1,6 @@
 <template>
-  <Header @input="changeQuery" :query="query" />
-  <Main :location="location" :time="time" :weather="weather" :query="query" />
+  <Header @input1="changeQuery" :query="query" />
+  <Main :position="position" :time="time" :weather="weather" :query="query" />
 </template>
 
 <script>
@@ -12,25 +12,27 @@ import WeatherService from "@/services/WeatherService";
 export default {
   components: { Header, Main },
   setup() {
-    const query = ref("");
+    const query = ref("London");
     const weather = ref({});
     const time = ref("");
-    const location = ref({});
+    const position = ref({});
 
-    const getLocation = (res) => {
+    // getPosition
+    const getPosition = (res) => {
       const { lat, lon } = res.coord;
-      location.value = { lat, lon };
+      position.value = { lat, lon };
     };
 
+    // Getting The Time
     const getTime = (res) => {
       const week = [
+        "Sunday",
         "Monday",
         "Tuesday",
         "Wednesday",
         "Thursday",
         "Friday",
         "Saturday",
-        "Sunday",
       ];
       const ct = require("countries-and-timezones");
       const country = ct.getCountry(res.sys.country);
@@ -47,7 +49,7 @@ export default {
         }
       }
       currentTime = new Date(utcTime + 3600000 * timeOffset);
-      day = week[currentTime.getDay() - 1];
+      day = week[currentTime.getDay()];
       time = `${currentTime.getHours()}:${currentTime.getMinutes()}`.split(":");
       // Adding "0" to the time is it's needed
       for (let i = 0; i < time.length; i++) {
@@ -84,8 +86,7 @@ export default {
           position.coords.longitude,
           position.coords.latitude
         ).then((res) => {
-          getLocation(res.data);
-          console.log(location.value);
+          getPosition(res.data);
           getWeatherDetails(res.data);
         });
       });
@@ -94,8 +95,7 @@ export default {
     // Get Weather By Input Search
     const handleSearch = () => {
       WeatherService.getWeatherByQuery(query.value).then((res) => {
-        console.log(res.data);
-        getLocation(res.data);
+        getPosition(res.data);
         getWeatherDetails(res.data);
       });
     };
@@ -109,7 +109,14 @@ export default {
       }
     };
 
-    return { query, changeQuery, weather, handleSearch, time, location };
+    return {
+      query,
+      changeQuery,
+      weather,
+      handleSearch,
+      time,
+      position,
+    };
   },
 };
 </script>

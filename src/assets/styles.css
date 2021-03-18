@@ -89,3 +89,8 @@ header {
 }
 
 /* MAIN */
+.main__map iframe {
+  width: 30%;
+  height: 200px;
+  border-radius: 12px;
+}
