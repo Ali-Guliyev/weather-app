@@ -17,11 +17,33 @@ export default {
     const time = ref("");
     const position = ref({});
 
-    // getPosition
-    const getPosition = (res) => {
-      const { lat, lon } = res.coord;
-      position.value = { lat, lon };
+    // Getting Weather Data
+    const getWeatherData = (onlypos) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          WeatherService.getWeatherByLocation(
+            position.coords.longitude,
+            position.coords.latitude
+          ).then((res) => {
+            if (onlypos) {
+              getPosition(res.data);
+            } else {
+              getWeatherDetails(res.data);
+              time.value = getTime(res.data);
+            }
+          });
+        });
+      }
     };
+
+    // Getting Current Position Of User
+    setInterval(() => {
+      getWeatherData(false);
+    }, 1100);
+    // Getting Current Weather and Time
+    setTimeout(() => {
+      getWeatherData(true);
+    }, 100);
 
     // Getting The Time
     const getTime = (res) => {
@@ -51,7 +73,7 @@ export default {
       currentTime = new Date(utcTime + 3600000 * timeOffset);
       day = week[currentTime.getDay()];
       time = `${currentTime.getHours()}:${currentTime.getMinutes()}`.split(":");
-      // Adding "0" to the time is it's needed
+      // Adding "0" to the time if it's needed
       for (let i = 0; i < time.length; i++) {
         if (time[i].length == 1) {
           let num = time[i].split("");
@@ -79,20 +101,13 @@ export default {
       };
     };
 
-    // Get Weather By Current Location
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        WeatherService.getWeatherByLocation(
-          position.coords.longitude,
-          position.coords.latitude
-        ).then((res) => {
-          getPosition(res.data);
-          getWeatherDetails(res.data);
-        });
-      });
-    }
+    // Getting User's Current Position
+    const getPosition = (res) => {
+      const { lat, lon } = res.coord;
+      position.value = { lat, lon };
+    };
 
-    // Get Weather By Input Search
+    // Getting Weather By Input Search
     const handleSearch = () => {
       WeatherService.getWeatherByQuery(query.value).then((res) => {
         getPosition(res.data);
@@ -100,7 +115,7 @@ export default {
       });
     };
 
-    // Change Query
+    // Changing The Query
     const changeQuery = (e) => {
       query.value = e.target.value;
 

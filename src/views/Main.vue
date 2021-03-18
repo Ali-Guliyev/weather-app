@@ -1,7 +1,9 @@
 <template>
   <main>
     <div class="main__container">
-      <div class="column-1"></div>
+      <div class="column-1">
+        {{ time }}
+      </div>
       <div class="column-2"></div>
     </div>
 
