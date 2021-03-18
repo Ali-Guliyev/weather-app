@@ -25,25 +25,18 @@ export default {
             position.coords.longitude,
             position.coords.latitude
           ).then((res) => {
-            if (onlypos) {
-              getPosition(res.data);
-            } else {
-              getWeatherDetails(res.data);
-              time.value = getTime(res.data);
-            }
+            getPosition(res.data);
+            getWeatherDetails(res.data);
+            time.value = getTime(res.data);
           });
         });
       }
     };
 
-    // Getting Current Position Of User
-    setInterval(() => {
-      getWeatherData(false);
-    }, 1100);
-    // Getting Current Weather and Time
+    // Getting Current User Position, Weather and Time in his Country or City
     setTimeout(() => {
-      getWeatherData(true);
-    }, 100);
+      getWeatherData();
+    }, 200);
 
     // Getting The Time
     const getTime = (res) => {
