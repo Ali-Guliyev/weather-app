@@ -94,3 +94,7 @@ header {
   height: 200px;
   border-radius: 12px;
 }
+
+.main__container img {
+  width: 50px;
+}

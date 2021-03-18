@@ -18,7 +18,7 @@ export default {
     const position = ref({});
 
     // Getting Weather Data
-    const getWeatherData = (onlypos) => {
+    const getWeatherData = () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
           WeatherService.getWeatherByLocation(

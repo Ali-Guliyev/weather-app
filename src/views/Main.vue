@@ -2,7 +2,25 @@
   <main>
     <div class="main__container">
       <div class="column-1">
-        {{ time }}
+        <h2 class="main__title">{{ weather.name }}</h2>
+        <h4 class="main__temp">{{ weather.celcius }}°C</h4>
+        <div class="main__description">
+          <img :src="weather.icon" alt="" />
+          <p>{{ weather.description }}</p>
+        </div>
+        <div class="main__humidity">
+          <img src="@/assets/img/humidity.png" alt="" />
+          <p>Humidity: {{ weather.humidity }}%</p>
+        </div>
+        <div class="main__windspeed">
+          <img src="@/assets/img/wind.png" alt="" />
+          <p>Wind speed: {{ weather.windspeed }}km/h</p>
+        </div>
+
+        <div class="main__time">
+          <img src="@/assets/img/time.png" alt="" />
+          <p>{{ time }}</p>
+        </div>
       </div>
       <div class="column-2"></div>
     </div>
