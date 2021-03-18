@@ -90,7 +90,7 @@ header {
 
 /* MAIN */
 .main__map iframe {
-  width: 30%;
+  width: 60%;
   height: 200px;
   border-radius: 12px;
 }
