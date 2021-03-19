@@ -46,6 +46,11 @@ header {
   width: 230px;
 }
 
+.header__searchInput::-webkit-input-placeholder {
+  color: #acacac;
+  font-size: 18px;
+}
+
 .header__searchInput,
 .header__getCurrentWeatherBtn,
 .header__searchBtn {

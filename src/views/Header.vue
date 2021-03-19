@@ -21,7 +21,7 @@
       <input
         class="header__searchInput"
         spellcheck="false"
-        placeholder="Search..."
+        placeholder="Search city or country"
         :value="query"
         @keypress="
           (e) => {
