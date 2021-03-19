@@ -4,6 +4,7 @@
     @input="changeQuery"
     @handleSearch="handleSearch"
     :query="query"
+    :isError="isError"
   />
   <Main :position="position" :time="time" :weather="weather" :query="query" />
 </template>
@@ -21,6 +22,7 @@ export default {
     const weather = ref({});
     const time = ref("");
     const position = ref({});
+    const isError = ref(false);
 
     // Getting Current User Position, Weather and Time in his Country or City
     setTimeout(() => {
@@ -29,10 +31,17 @@ export default {
 
     // Getting Weather By Input Search
     const handleSearch = () => {
-      WeatherService.getWeatherByQuery(query.value).then((res) => {
-        getPosition(res.data);
-        getWeatherDetails(res.data);
-      });
+      WeatherService.getWeatherByQuery(query.value)
+        .then((res) => {
+          getPosition(res.data);
+          getWeatherDetails(res.data);
+        })
+        .catch(() => {
+          isError.value = true;
+          setTimeout(() => {
+            isError.value = false;
+          }, 3000);
+        });
     };
 
     // Getting Weather Data
@@ -130,6 +139,7 @@ export default {
       time,
       position,
       getWeatherData,
+      isError,
     };
   },
 };

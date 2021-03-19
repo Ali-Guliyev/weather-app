@@ -37,11 +37,17 @@
         <span class="material-icons">search</span>
       </button>
     </div>
+    <div class="header__errorContainer" style="textAlign: center">
+      <div v-if="isError">
+        Something went wrong 😔!
+      </div>
+      <div v-else></div>
+    </div>
   </header>
 </template>
 
 <script>
 export default {
-  props: ["query"],
+  props: ["query", "isError"],
 };
 </script>
