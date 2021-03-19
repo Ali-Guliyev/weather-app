@@ -12,7 +12,7 @@ import WeatherService from "@/services/WeatherService";
 export default {
   components: { Header, Main },
   setup() {
-    const query = ref("London");
+    const query = ref("");
     const weather = ref({});
     const time = ref("");
     const position = ref({});
