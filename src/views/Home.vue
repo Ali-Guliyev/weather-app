@@ -1,5 +1,10 @@
 <template>
-  <Header @input1="changeQuery" :query="query" />
+  <Header
+    @getCurrentWeather="getWeatherData"
+    @input="changeQuery"
+    @handleSearch="handleSearch"
+    :query="query"
+  />
   <Main :position="position" :time="time" :weather="weather" :query="query" />
 </template>
 
@@ -17,6 +22,19 @@ export default {
     const time = ref("");
     const position = ref({});
 
+    // Getting Current User Position, Weather and Time in his Country or City
+    setTimeout(() => {
+      getWeatherData();
+    }, 200);
+
+    // Getting Weather By Input Search
+    const handleSearch = () => {
+      WeatherService.getWeatherByQuery(query.value).then((res) => {
+        getPosition(res.data);
+        getWeatherDetails(res.data);
+      });
+    };
+
     // Getting Weather Data
     const getWeatherData = () => {
       if (navigator.geolocation) {
@@ -32,11 +50,6 @@ export default {
         });
       }
     };
-
-    // Getting Current User Position, Weather and Time in his Country or City
-    setTimeout(() => {
-      getWeatherData();
-    }, 200);
 
     // Getting The Time
     const getTime = (res) => {
@@ -100,14 +113,6 @@ export default {
       position.value = { lat, lon };
     };
 
-    // Getting Weather By Input Search
-    const handleSearch = () => {
-      WeatherService.getWeatherByQuery(query.value).then((res) => {
-        getPosition(res.data);
-        getWeatherDetails(res.data);
-      });
-    };
-
     // Changing The Query
     const changeQuery = (e) => {
       query.value = e.target.value;
@@ -124,6 +129,7 @@ export default {
       handleSearch,
       time,
       position,
+      getWeatherData,
     };
   },
 };
