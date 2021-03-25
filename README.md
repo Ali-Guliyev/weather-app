@@ -1,19 +1,3 @@
-# weather-app
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+#Weather App
+By entering this app you see the current weather data in your region and also the map and time!
+You can search for any weather in any region.
