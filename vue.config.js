@@ -11,14 +11,12 @@ module.exports = {
         {
           src: './src/img/icons/icon192x192.png',
           sizes: '192x192',
-          type: 'image/svg+xml',
-          purpose: 'any maskable',
+          type: 'image/png',
         },
         {
           src: './src/img/icons/icon512x512.png',
           sizes: '512x512',
-          type: 'image/svg+xml',
-          purpose: 'any maskable',
+          type: 'image/png',
         },
       ],
     },
