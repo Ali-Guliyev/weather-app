@@ -6,7 +6,7 @@ module.exports = {
       start_url: './',
       display: 'standalone',
       theme_color: '#78bff7',
-      msTileColor: '#6dade1',
+      backgrounud_color: '#6dade1',
       icons: [
         {
           src: './src/img/icons/icon192x192.png',
